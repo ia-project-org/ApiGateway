@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+
+      mvc:
+        routes:
+          - id: Bank-ms
+            uri: lb://BANK-MS
+            predicates:
+              - Path=/clients/**
+          - id: IaModel-ms
+            uri: lb://IAMODEL-MS
+            predicates:
+              - Path=/app/**
+          - id: Eligibility-ms
+            uri: lb://ELIGIBILITY-MS
+            predicates:
+              - Path=/eligibility/**
+
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/e-banking
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+server:
+  port: 9004
+eureka:
+  client:
+    region: default
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://localhost:8081/eureka/
+
+jwt:
+  auth:
+    converter:
+      resource-id: e-banking-rest-api
+      principle-attribute: preferred_username
+
+keycloak:
+  auth-server-url: http://localhost:8088/auth
+  realm: e-banking
+  resource: backend-client
+  public-client: false
+  credentials:
+    secret: QBafFQGFvlGsvttMMBX7Qa6urFrr7RsG
+  bearer-only: true
