@@ -1,18 +1,20 @@
-FROM maven:3-amazoncorretto-21 AS build
+# Builder stage
+FROM bellsoft/liberica-runtime-container:jdk-21-stream-musl as builder
+WORKDIR /app
+ADD . /app
+WORKDIR /app
+RUN chmod +x mvnw
+RUN ./mvnw clean package -Dmaven.test.skip=true
 
+# Runtime stage
+FROM bellsoft/liberica-runtime-container:jre-21-musl
 WORKDIR /app
 
-COPY . /app
+# Expose the necessary port
+EXPOSE 8084
 
-RUN mvn clean package -DskipTests
+# Copy the built JAR file from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
 
-
-FROM openjdk:21-jdk
-
-WORKDIR /app
-
-COPY --from=build /app/target/api-gateway*.jar app.jar
-
-EXPOSE 9004
-
+# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
