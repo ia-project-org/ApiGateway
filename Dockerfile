@@ -21,4 +21,4 @@ COPY --from=builder /app/target/*.jar app.jar
 
 # Run the application
 #ENTRYPOINT ["java", "-jar", "app.jar"]
-CMD java -jar -Dspring.profiles.active=${ACTIVE_PROFILE}
+CMD ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
