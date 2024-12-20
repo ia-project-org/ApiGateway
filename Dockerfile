@@ -8,13 +8,17 @@ RUN ./mvnw clean package -Dmaven.test.skip=true
 
 # Runtime stage
 FROM bellsoft/liberica-runtime-container:jre-21-musl
+
+ARG PROFILE=prod
+
 WORKDIR /app
 
 # Expose the necessary port
-EXPOSE 9004a
+EXPOSE 9004
 
 # Copy the built JAR file from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+#ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD java -jar -Dspring.profiles.active=${ACTIVE_PROFILE}

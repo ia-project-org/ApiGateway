@@ -24,17 +24,18 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/e-banking
+          issuer-uri: http://34.41.170.207:32001/realms/e-banking
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
 server:
   port: 9004
+
 eureka:
   client:
     region: default
     registry-fetch-interval-seconds: 5
     service-url:
-      defaultZone: http://localhost:8081/eureka/
+      defaultZone: http://34.41.170.207:32003/
 
 jwt:
   auth:
@@ -43,7 +44,7 @@ jwt:
       principle-attribute: preferred_username
 
 keycloak:
-  auth-server-url: http://localhost:8080/auth
+  auth-server-url: http://34.41.170.207:32001/
   realm: e-banking
   resource: backend-client
   public-client: false
