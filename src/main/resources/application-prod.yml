@@ -35,7 +35,7 @@ eureka:
     region: default
     registry-fetch-interval-seconds: 5
     service-url:
-      defaultZone: http://34.41.170.207:32003/
+      defaultZone: http://34.41.170.207:32003/eureka/
 
 jwt:
   auth:
