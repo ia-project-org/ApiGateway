@@ -3,7 +3,6 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-
       mvc:
         routes:
           - id: Bank-ms
