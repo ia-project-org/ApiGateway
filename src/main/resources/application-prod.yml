@@ -51,3 +51,7 @@ keycloak:
   credentials:
     secret: QBafFQGFvlGsvttMMBX7Qa6urFrr7RsG
   bearer-only: true
+
+cors:
+  allowed:
+    origin: http://34.41.170.207:30001

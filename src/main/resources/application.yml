@@ -50,3 +50,7 @@ keycloak:
   credentials:
     secret: QBafFQGFvlGsvttMMBX7Qa6urFrr7RsG
   bearer-only: true
+
+cors:
+  allowed:
+    origin: http://localhost:5173
