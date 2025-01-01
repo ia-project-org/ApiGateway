@@ -3,7 +3,6 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-
       mvc:
         routes:
           - id: Bank-ms
@@ -36,6 +35,8 @@ eureka:
     registry-fetch-interval-seconds: 5
     service-url:
       defaultZone: http://34.41.170.207:32003/eureka/
+  instance:
+    preferIpAddress: true
 
 jwt:
   auth:
