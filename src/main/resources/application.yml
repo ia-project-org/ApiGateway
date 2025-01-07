@@ -33,7 +33,15 @@ eureka:
     region: default
     registry-fetch-interval-seconds: 5
     service-url:
-      defaultZone: http://localhost:8081/eureka/
+      defaultZone: https://eureka-server-discovery.onrender.com/eureka/
+  instance:
+    instance-id: ${eureka.instance.hostname}:${spring.application.name}:${server.port}
+    hostname: ${GATEWAY_HOST:https://apigateway-a3y7.onrender.com}
+    non-secure-port: 80
+    secure-port: 443
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+    prefer-ip-address: false
 
 jwt:
   auth:
