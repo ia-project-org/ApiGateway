@@ -28,24 +28,34 @@ spring:
 
 server:
   port: 9004
+
 eureka:
   client:
-    region: default
-    registry-fetch-interval-seconds: 5
     serviceUrl:
       defaultZone: https://eureka-server-discovery.onrender.com/eureka/
-    webclient:
-      enabled: true
+    fetch-registry: true
+    register-with-eureka: true
   instance:
     hostname: apigateway-a3y7.onrender.com
-    instanceId: ${eureka.instance.hostname}:${spring.application.name}:${random.value}
-    securePort: 443
+    preferIpAddress: false
     securePortEnabled: true
     nonSecurePortEnabled: false
-    preferIpAddress: false
+    securePort: 443
+    instanceId: ${spring.application.name}:${random.uuid}
     statusPageUrl: https://${eureka.instance.hostname}/actuator/info
     healthCheckUrl: https://${eureka.instance.hostname}/actuator/health
     homePageUrl: https://${eureka.instance.hostname}/
+    metadataMap:
+      instanceId: ${spring.application.name}:${random.uuid}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 
 jwt:
   auth:
