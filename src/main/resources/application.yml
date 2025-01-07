@@ -18,30 +18,35 @@ spring:
             predicates:
               - Path=/eligibility/**
 
-
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/e-banking
-          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+          # Remplacez avec l'URL de production de Keycloak
+          issuer-uri: ${KEYCLOAK_URL}/realms/e-banking
+          jwk-set-uri: ${KEYCLOAK_URL}/realms/e-banking/protocol/openid-connect/certs
 
 server:
-  port: 9004
+  port: ${PORT:9004}
+
 eureka:
   client:
     region: default
     registry-fetch-interval-seconds: 5
-    service-url:
+    serviceUrl:
       defaultZone: https://eureka-server-discovery.onrender.com/eureka/
+    webclient:
+      enabled: true
   instance:
-    instance-id: ${eureka.instance.hostname}:${spring.application.name}:${server.port}
-    hostname: ${GATEWAY_HOST:https://apigateway-a3y7.onrender.com}
-    non-secure-port: 80
-    secure-port: 443
-    non-secure-port-enabled: false
-    secure-port-enabled: true
-    prefer-ip-address: false
+    hostname: apigateway-a3y7.onrender.com
+    instanceId: ${eureka.instance.hostname}:${spring.application.name}:${random.value}
+    securePort: 443
+    securePortEnabled: true
+    nonSecurePortEnabled: false
+    preferIpAddress: false
+    statusPageUrl: https://${eureka.instance.hostname}/actuator/info
+    healthCheckUrl: https://${eureka.instance.hostname}/actuator/health
+    homePageUrl: https://${eureka.instance.hostname}/
 
 jwt:
   auth:
@@ -50,14 +55,16 @@ jwt:
       principle-attribute: preferred_username
 
 keycloak:
-  auth-server-url: http://localhost:8080/auth
+  # Remplacez avec l'URL de production de Keycloak
+  auth-server-url: ${KEYCLOAK_URL}
   realm: e-banking
   resource: backend-client
   public-client: false
   credentials:
-    secret: QBafFQGFvlGsvttMMBX7Qa6urFrr7RsG
+    secret: ${KEYCLOAK_SECRET}
   bearer-only: true
 
 cors:
   allowed:
-    origin: http://localhost:5173
+    # Ajoutez votre URL frontend de production
+    origin: ${CORS_ALLOWED_ORIGIN}
