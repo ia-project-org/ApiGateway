@@ -1,6 +1,8 @@
 spring:
   application:
     name: api-gateway
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
   cloud:
     gateway:
       mvc:
@@ -28,6 +30,7 @@ spring:
 
 server:
   port: 9004
+  shutdown: graceful
 
 eureka:
   client:
@@ -36,6 +39,8 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
   instance:
+    leaseRenewalIntervalInSeconds: 30
+    leaseExpirationDurationInSeconds: 90
     hostname: apigateway-a3y7.onrender.com
     preferIpAddress: false
     securePortEnabled: true
