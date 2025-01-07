@@ -18,17 +18,16 @@ spring:
             predicates:
               - Path=/eligibility/**
 
+
   security:
     oauth2:
       resourceserver:
         jwt:
-          # Remplacez avec l'URL de production de Keycloak
-          issuer-uri: ${KEYCLOAK_URL}/realms/e-banking
-          jwk-set-uri: ${KEYCLOAK_URL}/realms/e-banking/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8080/realms/e-banking
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
 
 server:
-  port: ${PORT:9004}
-
+  port: 9004
 eureka:
   client:
     region: default
@@ -55,16 +54,14 @@ jwt:
       principle-attribute: preferred_username
 
 keycloak:
-  # Remplacez avec l'URL de production de Keycloak
-  auth-server-url: ${KEYCLOAK_URL}
+  auth-server-url: http://localhost:8080/auth
   realm: e-banking
   resource: backend-client
   public-client: false
   credentials:
-    secret: ${KEYCLOAK_SECRET}
+    secret: QBafFQGFvlGsvttMMBX7Qa6urFrr7RsG
   bearer-only: true
 
 cors:
   allowed:
-    # Ajoutez votre URL frontend de production
-    origin: ${CORS_ALLOWED_ORIGIN}
+    origin: http://localhost:5173
